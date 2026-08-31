@@ -1,0 +1,63 @@
+{
+  "chain_id": "FACE-VERIFY-CHAIN-2026",
+  "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa",
+  "block_height": 2,
+  "blocks": [
+    {
+      "index": 0,
+      "timestamp": "2026-08-31T00:00:00Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "0f0e02908c7848f2fd747027b4da86257a89a6bccddd5e75ea9da871ecef1dd2",
+          "record_id": "GENESIS-0000-0000",
+          "post_url": "https://blockchain.forensics.local/genesis",
+          "author": "ForensicAuthorityRoot",
+          "title": "Genesis Root Anchor",
+          "content_snippet": "Genesis block for Face Evidence Verification Pipeline",
+          "image_hash_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "phash": "0000000000000000",
+          "face_embedding_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+          "timestamp": "2026-08-31T00:00:00Z",
+          "merkle_leaf_hash": "9eea8d05bbf10bfb48cd11697da123ca91d57cb505f90d7fd6a76ad58d30414f",
+          "signature": "43a973f96e8c31e33f86068ff55f9391d98b7882576b3d0176f6b634dee00e8ec5cc9272a27db51967a4174eafd912578a624c01a39da66ebe1d9509f393e972"
+        }
+      ],
+      "merkle_root": "0f0e02908c7848f2fd747027b4da86257a89a6bccddd5e75ea9da871ecef1dd2",
+      "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "nonce": 394,
+      "difficulty": 2,
+      "hash": "00b8ccdef8dadfc56ae2ae0af76c3541482930ac77f510e71107c82fe11a2af0",
+      "signature": "eab4ee21b142d65db87f233a1543708c67d55614e48c488b4c318e766229d1ca1b6c7c75bb73a94a1f6cb121840b7b098151b5e0d98785bc2709fcb8a49e15aa"
+    },
+    {
+      "index": 1,
+      "timestamp": "2026-08-31T17:38:45Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "76c2206af0b02a3881ed4be3239d7ddf71be2c1a769c19a043960fb8d7d73636",
+          "record_id": "REC-E2E-x_post_778102a",
+          "post_url": "https://x.com/techinsider/status/1784920194819201928",
+          "author": "@techinsider",
+          "title": "AI Face Scan & Identity Verification Keynote",
+          "content_snippet": "Exploring next-gen biometric identification protocols and decentralized authentication at the 2026 Tech Summit #Biometrics #Web3",
+          "source_platform": "Twitter/X",
+          "image_hash_sha256": "8397a8a5e1bbb4a56eb8f650e4382e86a8f6679450dc9fac641208b770e9e770",
+          "phash": "007068e8d0f07000",
+          "face_embedding_digest": "2e07ef709a28185fd718a509d3877ba6f0f30c9ce2b3a02a92affae3ed9c26c6",
+          "timestamp": "2026-08-31T17:38:45Z",
+          "merkle_leaf_hash": "aa15f5c20447275c8fa6be47e9413cdd98e00fd4197d757e0a274d40f9f5d312",
+          "signature": "dc6f31613ae9d9fd6ffc77e780f43db9561d5a231dab5db630030481a490f4c6604051a9b8b470f4ccfccfc992a4bc67879b566047b8ef13402baa95d273111d",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "76c2206af0b02a3881ed4be3239d7ddf71be2c1a769c19a043960fb8d7d73636",
+      "previous_hash": "00b8ccdef8dadfc56ae2ae0af76c3541482930ac77f510e71107c82fe11a2af0",
+      "nonce": 203,
+      "difficulty": 2,
+      "hash": "003b481044bb44ba3cfd25ec3998c48b0c2e2550e425a58b5318053f0731663d",
+      "signature": "e997515bf7dac2cb8fa0718442cc88b8583d64381909dd76d05af38268cb3d4fa676632b39dfe4f54fc65a1fde5c3401ffd12f6e413dceb939fa84c45fd8fa17"
+    }
+  ]
+}
