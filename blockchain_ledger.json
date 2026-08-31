@@ -1,7 +1,7 @@
 {
   "chain_id": "FACE-VERIFY-CHAIN-2026",
   "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa",
-  "block_height": 3,
+  "block_height": 5,
   "blocks": [
     {
       "index": 0,
@@ -87,6 +87,64 @@
       "difficulty": 2,
       "hash": "0061f65dd4822fb06c35b4bff1bd24e369d1821791d61e4ff9eaa26350680302",
       "signature": "b8aafbe6385baee0a89dba143f8ed4c199289767355c61e60280014f69731b16f5aad76fdb6462699d4e161caaf4b8684b9ae6dd73091598c9d29d3f0fcaab9b"
+    },
+    {
+      "index": 3,
+      "timestamp": "2026-08-31T18:10:02Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "870a298320f7140b02cfbb578d0a8f150eec101912a7847e08b1e66745600cee",
+          "record_id": "REC-x_post_778102a-MTHJZNN5",
+          "post_url": "https://x.com/techinsider/status/1784920194819201928",
+          "author": "@techinsider",
+          "title": "AI Face Scan & Identity Verification Keynote",
+          "content_snippet": "Exploring next-gen biometric identification protocols and decentralized authentication at the 2026 Tech Summit #Biometrics #Web3",
+          "source_platform": "Twitter/X",
+          "image_hash_sha256": "ef984ec915c4e747a5ad2f56a6c0a879dc390b031740811d5807c9d2c6c88468",
+          "phash": "3068687868c8c888",
+          "face_embedding_digest": "0da3d2ed0f55bd1b5cada6c073cfb703b13eafe1145e2c89bd8d50d16fd95d19",
+          "timestamp": "2026-08-31T18:10:02Z",
+          "merkle_leaf_hash": "193f448255640dbe072f4187a210dc0b30b302ab5635c59fc6e714bc98240cde",
+          "signature": "99f68d66652dd6ba7a2bc5ad2ae6cab4a8f9a78f8e6d5cb24f912cab9f8d20de19be2668b6cb6f92f79b29868e151a63f19bc6216891092a74fc50d800147fc9",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "870a298320f7140b02cfbb578d0a8f150eec101912a7847e08b1e66745600cee",
+      "previous_hash": "0061f65dd4822fb06c35b4bff1bd24e369d1821791d61e4ff9eaa26350680302",
+      "nonce": 107,
+      "difficulty": 2,
+      "hash": "0072f5d09163d2d80f65c7b2340e3c6ea0a0ca0ee4aefff6ee4f92285792c0aa",
+      "signature": "e9cfe25cab0da1d74e465c59c664c0e5e0206ebcc14d98e57a1913930a33b9cd62f683e93cde97c89b422040edc6fd744712a68efba16b5afdbcdbe53e4c708a"
+    },
+    {
+      "index": 4,
+      "timestamp": "2026-08-31T19:03:43Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "2a037310ef3449636e801286528ddeb732f1f11ab43695da30efbe40f7aa7912",
+          "record_id": "REC-MJ-mj_x_official",
+          "post_url": "https://x.com/michaeljackson",
+          "author": "@michaeljackson",
+          "title": "Michael Jackson Official \u2014 Bad Tour Live Performance Media",
+          "content_snippet": "Official estate account featuring archival Bad World Tour concert recordings, vocal performances, and historic visual media.",
+          "source_platform": "Twitter/X",
+          "image_hash_sha256": "921d13504f4215d934a03ec7f143a3f637d52f9decf6ad4b1a9dbce6a9609dfb",
+          "phash": "316979e9c8890f59",
+          "face_embedding_digest": "de29cb18f0f21ded7dd40387b653bc2321becdb4a31376728c6b568baf89cea5",
+          "timestamp": "2026-08-31T19:03:43Z",
+          "merkle_leaf_hash": "455013ad5c412f8761556786c300afc56bc690d5645ab0e7ca0f01670cb6d28e",
+          "signature": "5492b01dcf1057991880ca08bd12f8abbf15bc1b6ed935d141e15be6e8f985f6c55ddd3c80673be6da07b7448e5780fe1bcd7d0ab3b18b145bbda7939b15d5fc",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "2a037310ef3449636e801286528ddeb732f1f11ab43695da30efbe40f7aa7912",
+      "previous_hash": "0072f5d09163d2d80f65c7b2340e3c6ea0a0ca0ee4aefff6ee4f92285792c0aa",
+      "nonce": 909,
+      "difficulty": 2,
+      "hash": "0023859e1ff22fde81998850d0f231aa0e40b509139dd5919f69ea6191a70727",
+      "signature": "2d8ec9b215412e6324b4d5fda24157838d1767bd81674eee3a1f1141a150ab165170e3917fdc9ed743f9e2c2da483a1d4b057720f5af8ba7d5af2547da830961"
     }
   ]
 }

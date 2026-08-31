@@ -206,6 +206,13 @@ async def get_sample_faces():
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     samples_config = [
         {
+            "id": "sample-mj",
+            "name": "Michael Jackson (Bad Tour Live)",
+            "description": "King of Pop live concert performance",
+            "filename": "sample_mj.png",
+            "fallback_url": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&auto=format&fit=crop&q=80",
+        },
+        {
             "id": "sample-1",
             "name": "Sarah Connor (Tech Leader)",
             "description": "Public speaker & keynote portrait",
@@ -226,13 +233,6 @@ async def get_sample_faces():
             "filename": "sample_3_elena.jpg",
             "fallback_url": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&auto=format&fit=crop&q=80",
         },
-        {
-            "id": "sample-4",
-            "name": "Marcus Vance (AI Specialist)",
-            "description": "Biometric systems analyst",
-            "filename": "sample_4_marcus.jpg",
-            "fallback_url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=80",
-        }
     ]
 
     result_samples = []
