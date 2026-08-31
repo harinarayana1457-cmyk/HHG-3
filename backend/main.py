@@ -201,35 +201,57 @@ async def get_ledger():
 @app.get("/api/sample-faces")
 async def get_sample_faces():
     """
-    Return built-in sample face presets for quick one-click testing.
+    Return built-in sample face presets with embedded base64 for reliable instant testing.
     """
-    samples = [
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    samples_config = [
         {
             "id": "sample-1",
             "name": "Sarah Connor (Tech Leader)",
             "description": "Public speaker & keynote portrait",
-            "image_url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80",
+            "filename": "sample_1_sarah.jpg",
+            "fallback_url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80",
         },
         {
             "id": "sample-2",
             "name": "David Chen (Software Architect)",
             "description": "Developer advocate and open source contributor",
-            "image_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80",
+            "filename": "sample_2_david.jpg",
+            "fallback_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80",
         },
         {
             "id": "sample-3",
             "name": "Elena Rostova (Forensic Researcher)",
             "description": "Digital media forensics researcher",
-            "image_url": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&auto=format&fit=crop&q=80",
+            "filename": "sample_3_elena.jpg",
+            "fallback_url": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&auto=format&fit=crop&q=80",
         },
         {
             "id": "sample-4",
             "name": "Marcus Vance (AI Specialist)",
             "description": "Biometric systems analyst",
-            "image_url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=80",
+            "filename": "sample_4_marcus.jpg",
+            "fallback_url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=80",
         }
     ]
-    return {"samples": samples}
+
+    result_samples = []
+    for s in samples_config:
+        b64_data = ""
+        local_path = os.path.join(base_dir, "sample_faces", s["filename"])
+        if os.path.exists(local_path):
+            with open(local_path, "rb") as f:
+                b64_data = "data:image/jpeg;base64," + base64.b64encode(f.read()).decode("utf-8")
+        
+        result_samples.append({
+            "id": s["id"],
+            "name": s["name"],
+            "description": s["description"],
+            "image_url": b64_data if b64_data else s["fallback_url"],
+            "image_base64": b64_data,
+        })
+
+    return {"samples": result_samples}
 
 
 # Serve built frontend static files if present
@@ -240,7 +262,10 @@ if os.path.exists(frontend_dist):
     from fastapi.responses import FileResponse
     @app.get("/{full_path:path}")
     async def serve_frontend(full_path: str):
+        if full_path.startswith("api/") or full_path in ["api", "docs", "openapi.json", "redoc"]:
+            raise HTTPException(status_code=404, detail="API endpoint not found")
         file_path = os.path.join(frontend_dist, full_path)
-        if os.path.exists(file_path) and os.path.isfile(file_path):
+        if full_path and os.path.exists(file_path) and os.path.isfile(file_path):
             return FileResponse(file_path)
         return FileResponse(os.path.join(frontend_dist, "index.html"))
+

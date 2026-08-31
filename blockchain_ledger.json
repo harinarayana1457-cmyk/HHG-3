@@ -1,7 +1,7 @@
 {
   "chain_id": "FACE-VERIFY-CHAIN-2026",
   "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa",
-  "block_height": 2,
+  "block_height": 3,
   "blocks": [
     {
       "index": 0,
@@ -58,6 +58,35 @@
       "difficulty": 2,
       "hash": "003b481044bb44ba3cfd25ec3998c48b0c2e2550e425a58b5318053f0731663d",
       "signature": "e997515bf7dac2cb8fa0718442cc88b8583d64381909dd76d05af38268cb3d4fa676632b39dfe4f54fc65a1fde5c3401ffd12f6e413dceb939fa84c45fd8fa17"
+    },
+    {
+      "index": 2,
+      "timestamp": "2026-08-31T18:03:41Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "94c4d53c9bd2caf82073fe418913d5519b6e886c704302aeaff1a9a1c5fefab3",
+          "record_id": "TEST-x_post_778102a",
+          "post_url": "https://x.com/techinsider/status/1784920194819201928",
+          "author": "@techinsider",
+          "title": "AI Face Scan & Identity Verification Keynote",
+          "content_snippet": "Exploring next-gen biometric identification protocols and decentralized authentication at the 2026 Tech Summit #Biometrics #Web3",
+          "source_platform": "Twitter/X",
+          "image_hash_sha256": "f832bff6ca88b5bf01af68bd632e7dff48d5e429feea7c35bfbaf27220c9d974",
+          "phash": "00e8cce8d0f07000",
+          "face_embedding_digest": "8f3c29db734111f4f058577c382a3ee57d2580ca933df6de0741da10964714b8",
+          "timestamp": "2026-08-31T18:03:41Z",
+          "merkle_leaf_hash": "67035f06ea8d681e9d33e84709e0f954ab53465786b0afab554c30408d95ebb1",
+          "signature": "f3f4042ab154b84df5e59df5b43a570cccdb467b5d03f29d7534be8c90ff7301e9a70f9de47454cfdc7d675b5d64e725d2c7c7af49235af09487358733161169",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "94c4d53c9bd2caf82073fe418913d5519b6e886c704302aeaff1a9a1c5fefab3",
+      "previous_hash": "003b481044bb44ba3cfd25ec3998c48b0c2e2550e425a58b5318053f0731663d",
+      "nonce": 392,
+      "difficulty": 2,
+      "hash": "0061f65dd4822fb06c35b4bff1bd24e369d1821791d61e4ff9eaa26350680302",
+      "signature": "b8aafbe6385baee0a89dba143f8ed4c199289767355c61e60280014f69731b16f5aad76fdb6462699d4e161caaf4b8684b9ae6dd73091598c9d29d3f0fcaab9b"
     }
   ]
 }

@@ -110,6 +110,10 @@ export default function FaceScanner({ onScanComplete, activeScanData }) {
     setLoading(true);
     setError(null);
     try {
+      if (sample.image_base64) {
+        processFaceBase64(sample.image_base64);
+        return;
+      }
       // Fetch image from URL and convert to Base64
       const resp = await fetch(sample.image_url);
       const blob = await resp.blob();

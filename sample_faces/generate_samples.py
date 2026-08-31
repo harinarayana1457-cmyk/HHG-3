@@ -1,36 +1,46 @@
 """
-Helper script to generate local high quality test face samples for offline evaluation.
+Generate 4 distinct test portrait samples.
 """
 
 import os
+import io
+import base64
 from PIL import Image, ImageDraw
 
 
-def generate_sample_faces():
+def generate_all_samples():
     os.makedirs("sample_faces", exist_ok=True)
 
-    # 1. Sample 1: Alpha
-    img1 = Image.new("RGB", (320, 320), color=(230, 235, 245))
-    d1 = ImageDraw.Draw(img1)
-    d1.ellipse([(60, 50), (260, 270)], fill=(235, 195, 160), outline=(190, 150, 110), width=2)
-    d1.ellipse([(100, 120), (130, 140)], fill=(30, 30, 30))
-    d1.ellipse([(190, 120), (220, 140)], fill=(30, 30, 30))
-    d1.polygon([(160, 150), (150, 185), (170, 185)], fill=(210, 160, 130))
-    d1.arc([(120, 200), (200, 230)], start=0, end=180, fill=(170, 50, 50), width=3)
-    img1.save("sample_faces/sample_1_sarah.jpg", "JPEG")
+    samples = [
+        ("sample_1_sarah.jpg", (230, 235, 245), (235, 195, 160), "Sarah Connor"),
+        ("sample_2_david.jpg", (245, 240, 235), (225, 185, 150), "David Chen"),
+        ("sample_3_elena.jpg", (235, 245, 240), (240, 205, 175), "Elena Rostova"),
+        ("sample_4_marcus.jpg", (240, 235, 245), (210, 165, 130), "Marcus Vance"),
+    ]
 
-    # 2. Sample 2: Beta
-    img2 = Image.new("RGB", (320, 320), color=(245, 240, 235))
-    d2 = ImageDraw.Draw(img2)
-    d2.ellipse([(70, 45), (250, 275)], fill=(225, 185, 150), outline=(180, 140, 100), width=2)
-    d2.ellipse([(105, 115), (135, 135)], fill=(40, 40, 40))
-    d2.ellipse([(185, 115), (215, 135)], fill=(40, 40, 40))
-    d2.polygon([(160, 145), (152, 180), (168, 180)], fill=(200, 150, 120))
-    d2.arc([(125, 205), (195, 235)], start=0, end=180, fill=(160, 60, 60), width=3)
-    img2.save("sample_faces/sample_2_david.jpg", "JPEG")
-
-    print("[SUCCESS] Local test face samples generated in sample_faces/ directory.")
+    for fname, bg_color, skin_color, name in samples:
+        img = Image.new("RGB", (320, 320), color=bg_color)
+        d = ImageDraw.Draw(img)
+        # Face Oval
+        d.ellipse([(60, 50), (260, 270)], fill=skin_color, outline=(170, 130, 90), width=2)
+        # Hair
+        d.ellipse([(55, 40), (265, 130)], fill=(50, 40, 35))
+        d.ellipse([(70, 60), (250, 270)], fill=skin_color)
+        # Eyes
+        d.ellipse([(100, 120), (130, 140)], fill=(30, 30, 30))
+        d.ellipse([(190, 120), (220, 140)], fill=(30, 30, 30))
+        # Eyebrows
+        d.line([(95, 110), (135, 110)], fill=(40, 30, 25), width=3)
+        d.line([(185, 110), (225, 110)], fill=(40, 30, 25), width=3)
+        # Nose
+        d.polygon([(160, 145), (150, 185), (170, 185)], fill=(190, 145, 110))
+        # Mouth
+        d.arc([(120, 205), (200, 235)], start=0, end=180, fill=(170, 50, 50), width=4)
+        
+        filepath = os.path.join("sample_faces", fname)
+        img.save(filepath, "JPEG")
+        print(f"Generated {filepath}")
 
 
 if __name__ == "__main__":
-    generate_sample_faces()
+    generate_all_samples()
