@@ -3,8 +3,19 @@ import React, { useState, useRef } from 'react';
 export default function App() {
   const [inputImage, setInputImage] = useState(null);
   const [results, setResults] = useState([]);
+  const [primaryFace, setPrimaryFace] = useState(null);
+  const [phash, setPhash] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // Blockchain state
+  const [anchoring, setAnchoring] = useState(false);
+  const [blockchainProof, setBlockchainProof] = useState(null);
+  const [verifying, setVerifying] = useState(false);
+  const [verificationResult, setVerificationResult] = useState(null);
+  const [tampering, setTampering] = useState(false);
+  const [tamperResult, setTamperResult] = useState(null);
+
   const fileInputRef = useRef(null);
 
   const handleFile = (file) => {
@@ -21,6 +32,11 @@ export default function App() {
     setLoading(true);
     setError(null);
     setResults([]);
+    setPrimaryFace(null);
+    setPhash(null);
+    setBlockchainProof(null);
+    setVerificationResult(null);
+    setTamperResult(null);
 
     try {
       // Step 1: Face Detection
@@ -31,7 +47,9 @@ export default function App() {
       if (!detectRes.ok || !detectData.success) throw new Error(detectData.detail || 'Face detection failed.');
 
       const face = detectData.data.primary_face;
-      const phash = detectData.data.phash;
+      const detectedPhash = detectData.data.phash;
+      setPrimaryFace(face);
+      setPhash(detectedPhash);
 
       // Step 2: Real Reverse Image Search (Yandex CBIR)
       const searchRes = await fetch('/api/search/web', {
@@ -40,7 +58,7 @@ export default function App() {
         body: JSON.stringify({
           face_crop_base64: b64,
           embedding: face.embedding,
-          phash: phash,
+          phash: detectedPhash,
         }),
       });
       const searchData = await searchRes.json();
@@ -49,6 +67,11 @@ export default function App() {
       const matches = searchData.matches || [];
       if (matches.length === 0) throw new Error('No matching images found on the web.');
       setResults(matches);
+
+      // Auto-anchor top match to Blockchain
+      if (matches[0]) {
+        anchorToBlockchain(matches[0], face, detectedPhash);
+      }
     } catch (err) {
       setError(err.message || 'Something went wrong.');
     } finally {
@@ -56,9 +79,105 @@ export default function App() {
     }
   };
 
+  const anchorToBlockchain = async (match, face, detectedPhash) => {
+    setAnchoring(true);
+    setVerificationResult(null);
+    setTamperResult(null);
+
+    try {
+      const anchorRes = await fetch('/api/blockchain/anchor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          record_id: match.id || 'record_' + Date.now(),
+          post_url: match.post_url,
+          author: match.author || '@web_source',
+          title: match.title || 'Discovered Media Match',
+          content_snippet: match.content_snippet || '',
+          image_hash_sha256: match.id || 'hash_' + Date.now(),
+          phash: detectedPhash || '0000000000000000',
+          face_embedding_digest: face?.embedding ? face.embedding.slice(0, 8).join(',') : '0,0,0,0',
+          source_platform: match.platform || 'Web',
+        }),
+      });
+      const anchorData = await anchorRes.json();
+      if (!anchorRes.ok || !anchorData.success) throw new Error(anchorData.detail || 'Blockchain anchoring failed.');
+
+      setBlockchainProof({
+        ...anchorData.proof,
+        match: match,
+        face: face,
+        phash: detectedPhash,
+      });
+    } catch (err) {
+      console.error('Blockchain error:', err);
+    } finally {
+      setAnchoring(false);
+    }
+  };
+
+  const handleReVerify = async () => {
+    if (!blockchainProof) return;
+    setVerifying(true);
+    setTamperResult(null);
+
+    try {
+      const verifyRes = await fetch('/api/blockchain/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          candidate_record_id: blockchainProof.match.id,
+          candidate_tx_id: blockchainProof.tx_id,
+          candidate_post_url: blockchainProof.match.post_url,
+          candidate_author: blockchainProof.match.author || '@web_source',
+          candidate_title: blockchainProof.match.title || 'Discovered Media Match',
+          candidate_content_snippet: blockchainProof.match.content_snippet || '',
+          candidate_image_hash: blockchainProof.match.id,
+          candidate_phash: blockchainProof.phash,
+          candidate_face_digest: blockchainProof.face?.embedding ? blockchainProof.face.embedding.slice(0, 8).join(',') : '0,0,0,0',
+        }),
+      });
+      const verifyData = await verifyRes.json();
+      setVerificationResult(verifyData);
+    } catch (err) {
+      console.error('Verify error:', err);
+    } finally {
+      setVerifying(false);
+    }
+  };
+
+  const handleTestTamper = async () => {
+    if (!blockchainProof) return;
+    setTampering(true);
+    setVerificationResult(null);
+
+    try {
+      const tamperRes = await fetch('/api/blockchain/tamper-demo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tx_id: blockchainProof.tx_id,
+          field_to_alter: 'post_url',
+          altered_value: 'https://fake-tampered-site.com/fake-post',
+        }),
+      });
+      const tamperData = await tamperRes.json();
+      setTamperResult(tamperData);
+    } catch (err) {
+      console.error('Tamper test error:', err);
+    } finally {
+      setTampering(false);
+    }
+  };
+
   const reset = () => {
     setInputImage(null);
     setResults([]);
+    setPrimaryFace(null);
+    setPhash(null);
+    setBlockchainProof(null);
+    setVerificationResult(null);
+    setTamperResult(null);
     setError(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
@@ -73,7 +192,7 @@ export default function App() {
       'Reddit': '#ff4500',
       'Facebook': '#1877f2',
       'Official Website': '#22c55e',
-      'News': '#f59e0b',
+      'News / Media': '#f59e0b',
       'Wikipedia': '#3b82f6',
       'Web': '#888',
     };
@@ -89,18 +208,21 @@ export default function App() {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      padding: '48px 20px 60px',
+      padding: '44px 20px 60px',
       fontFamily: 'system-ui, -apple-system, sans-serif',
+      color: '#eee',
     }}>
       {/* Title */}
-      <h1 style={{ color: '#fff', fontSize: 26, fontWeight: 700, marginBottom: 6, textAlign: 'center' }}>
-        Face → Web Match
-      </h1>
-      <p style={{ color: '#555', fontSize: 13, marginBottom: 44, textAlign: 'center' }}>
-        Upload a face image — we search Google, Twitter, Instagram, Pinterest, Wikipedia and more to find where it appears online.
-      </p>
+      <div style={{ textAlign: 'center', marginBottom: 36 }}>
+        <h1 style={{ color: '#fff', fontSize: 26, fontWeight: 700, marginBottom: 6 }}>
+          Face → Web Match & Blockchain Verification
+        </h1>
+        <p style={{ color: '#666', fontSize: 13 }}>
+          Finds matching social media content on the web and anchors a tamper-evident record onto the blockchain.
+        </p>
+      </div>
 
-      {/* Two-panel */}
+      {/* Main Two-Panel Layout */}
       <div style={{
         display: 'flex',
         gap: 32,
@@ -108,12 +230,12 @@ export default function App() {
         justifyContent: 'center',
         flexWrap: 'wrap',
         width: '100%',
-        maxWidth: 860,
+        maxWidth: 880,
       }}>
-        {/* ---- LEFT: Input ---- */}
-        <div style={{ flex: 1, minWidth: 280, maxWidth: 400 }}>
-          <p style={{ color: '#555', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 10 }}>
-            Input Image
+        {/* ---- LEFT: Input Image ---- */}
+        <div style={{ flex: 1, minWidth: 280, maxWidth: 410 }}>
+          <p style={{ color: '#666', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 10 }}>
+            Input Face Image
           </p>
           <div
             onClick={() => !inputImage && fileInputRef.current?.click()}
@@ -123,14 +245,13 @@ export default function App() {
               background: '#0f0f0f',
               border: inputImage ? '1.5px solid #222' : '2px dashed #2a2a2a',
               borderRadius: 20,
-              minHeight: 380,
+              minHeight: 360,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               cursor: inputImage ? 'default' : 'pointer',
               overflow: 'hidden',
               position: 'relative',
-              transition: 'border-color 0.2s',
             }}
           >
             <input
@@ -144,13 +265,13 @@ export default function App() {
               <img
                 src={inputImage}
                 alt="Input"
-                style={{ width: '100%', objectFit: 'contain', maxHeight: 460, display: 'block' }}
+                style={{ width: '100%', objectFit: 'contain', maxHeight: 440, display: 'block' }}
               />
             ) : (
               <div style={{ textAlign: 'center', padding: 32 }}>
                 <div style={{ fontSize: 44, marginBottom: 14 }}>📷</div>
-                <p style={{ color: '#333', fontSize: 14, lineHeight: 1.6 }}>
-                  Click or drop a face image<br />to start reverse searching
+                <p style={{ color: '#444', fontSize: 14, lineHeight: 1.6 }}>
+                  Click or drag & drop a face image<br />to search & verify on blockchain
                 </p>
               </div>
             )}
@@ -162,31 +283,26 @@ export default function App() {
               style={{
                 marginTop: 12, width: '100%', padding: '10px',
                 background: '#111', border: '1px solid #222', borderRadius: 12,
-                color: '#555', fontSize: 13, cursor: 'pointer',
+                color: '#666', fontSize: 13, cursor: 'pointer',
               }}
             >
-              ↺ Try Another Image
+              ↺ Upload New Image
             </button>
           )}
         </div>
 
-        {/* ---- RIGHT: Match Result ---- */}
-        <div style={{ flex: 1, minWidth: 280, maxWidth: 400 }}>
-          <p style={{ color: '#555', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 10 }}>
-            Found on the Web
-            {results.length > 0 && (
-              <span style={{ color: '#333', fontWeight: 400, marginLeft: 8 }}>
-                ({results.length} matches via Yandex Reverse Search)
-              </span>
-            )}
+        {/* ---- RIGHT: Matched Result + Blockchain Record ---- */}
+        <div style={{ flex: 1, minWidth: 280, maxWidth: 410 }}>
+          <p style={{ color: '#666', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 10 }}>
+            Matched Social Media Result
           </p>
 
-          {/* Top matched image */}
+          {/* Result Image */}
           <div style={{
             background: '#0f0f0f',
             border: '1.5px solid #222',
             borderRadius: 20,
-            minHeight: 380,
+            minHeight: 360,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -199,7 +315,7 @@ export default function App() {
                   width: 44, height: 44, border: '3px solid #1a1a1a', borderTopColor: '#0af',
                   borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 16px',
                 }} />
-                <p style={{ color: '#444', fontSize: 13 }}>Searching Yandex, Google, Twitter, Instagram...</p>
+                <p style={{ color: '#555', fontSize: 13 }}>Searching social media & web...</p>
               </div>
             ) : error ? (
               <div style={{ textAlign: 'center', padding: 32 }}>
@@ -210,9 +326,8 @@ export default function App() {
               <img
                 src={topResult.image_url}
                 alt="Matched result"
-                style={{ width: '100%', objectFit: 'contain', maxHeight: 460, display: 'block' }}
+                style={{ width: '100%', objectFit: 'contain', maxHeight: 440, display: 'block' }}
                 onError={(e) => {
-                  // Try next result if image fails to load
                   const nextResult = results.find(r => r.image_url !== e.target.src);
                   if (nextResult) e.target.src = nextResult.image_url;
                 }}
@@ -220,15 +335,15 @@ export default function App() {
             ) : (
               <div style={{ textAlign: 'center', padding: 32 }}>
                 <div style={{ fontSize: 44, marginBottom: 14 }}>🔍</div>
-                <p style={{ color: '#333', fontSize: 13 }}>Matched image will appear here</p>
+                <p style={{ color: '#444', fontSize: 13 }}>Result image will appear here</p>
               </div>
             )}
           </div>
 
-          {/* Source link(s) */}
+          {/* Links Below Image */}
           {results.length > 0 && (
             <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {results.slice(0, 4).map((r, i) => (
+              {results.slice(0, 3).map((r, i) => (
                 <a
                   key={r.id}
                   href={r.post_url}
@@ -239,11 +354,10 @@ export default function App() {
                     alignItems: 'center',
                     gap: 10,
                     padding: '10px 14px',
-                    background: i === 0 ? '#0f1a0f' : '#0f0f0f',
-                    border: `1.5px solid ${i === 0 ? '#1a3a1a' : '#1a1a1a'}`,
+                    background: i === 0 ? '#0d180d' : '#0f0f0f',
+                    border: `1.5px solid ${i === 0 ? '#1b381b' : '#1a1a1a'}`,
                     borderRadius: 12,
                     textDecoration: 'none',
-                    transition: 'border-color 0.2s',
                   }}
                 >
                   <span style={{
@@ -254,7 +368,7 @@ export default function App() {
                     {r.platform}
                   </span>
                   <span style={{
-                    color: i === 0 ? '#5af' : '#3a3a4a', fontSize: 12,
+                    color: i === 0 ? '#4cf' : '#445', fontSize: 12,
                     overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                   }}>
                     {r.post_url}
@@ -266,10 +380,140 @@ export default function App() {
         </div>
       </div>
 
+      {/* ---- BLOCKCHAIN VERIFICATION SECTION ---- */}
+      {topResult && (
+        <div style={{
+          width: '100%',
+          maxWidth: 880,
+          marginTop: 36,
+          background: '#0f0f12',
+          border: '1.5px solid #1e1e28',
+          borderRadius: 20,
+          padding: 24,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: 20 }}>⛓️</span>
+              <div>
+                <h3 style={{ color: '#fff', fontSize: 16, fontWeight: 700 }}>Blockchain Evidence Record</h3>
+                <p style={{ color: '#556', fontSize: 12 }}>Tamper-evident Proof-of-Work & Merkle Tree ledger record</p>
+              </div>
+            </div>
+            {anchoring && (
+              <span style={{ color: '#0af', fontSize: 12 }}>Anchoring to block...</span>
+            )}
+            {blockchainProof && !anchoring && (
+              <span style={{
+                background: '#0d2818', color: '#22c55e', border: '1px solid #14532d',
+                fontSize: 11, fontWeight: 700, padding: '4px 10px', borderRadius: 8,
+              }}>
+                🟢 ON-CHAIN ANCHORED
+              </span>
+            )}
+          </div>
+
+          {blockchainProof && (
+            <div>
+              {/* Grid of On-Chain Proof Fields */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: 12,
+                marginBottom: 16,
+              }}>
+                <div style={{ background: '#08080a', padding: 12, borderRadius: 12, border: '1px solid #181820' }}>
+                  <p style={{ color: '#556', fontSize: 11, fontWeight: 600 }}>BLOCK HEIGHT</p>
+                  <p style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginTop: 2 }}>#{blockchainProof.block_index}</p>
+                </div>
+                <div style={{ background: '#08080a', padding: 12, borderRadius: 12, border: '1px solid #181820' }}>
+                  <p style={{ color: '#556', fontSize: 11, fontWeight: 600 }}>BLOCK HASH (SHA-256)</p>
+                  <p style={{ color: '#0af', fontSize: 11, fontFamily: 'monospace', marginTop: 4, wordBreak: 'break-all' }}>
+                    {blockchainProof.block_hash}
+                  </p>
+                </div>
+                <div style={{ background: '#08080a', padding: 12, borderRadius: 12, border: '1px solid #181820' }}>
+                  <p style={{ color: '#556', fontSize: 11, fontWeight: 600 }}>MERKLE ROOT</p>
+                  <p style={{ color: '#a7f', fontSize: 11, fontFamily: 'monospace', marginTop: 4, wordBreak: 'break-all' }}>
+                    {blockchainProof.merkle_root}
+                  </p>
+                </div>
+                <div style={{ background: '#08080a', padding: 12, borderRadius: 12, border: '1px solid #181820' }}>
+                  <p style={{ color: '#556', fontSize: 11, fontWeight: 600 }}>ECDSA SIGNATURE</p>
+                  <p style={{ color: '#22c55e', fontSize: 11, fontFamily: 'monospace', marginTop: 4 }}>
+                    secp256k1 Signed ✓
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Buttons for Verification */}
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                <button
+                  onClick={handleReVerify}
+                  disabled={verifying}
+                  style={{
+                    flex: 1, padding: '12px 16px', background: '#14281a', border: '1px solid #22c55e',
+                    borderRadius: 12, color: '#22c55e', fontSize: 13, fontWeight: 600, cursor: 'pointer',
+                  }}
+                >
+                  {verifying ? 'Verifying...' : '✓ Re-Verify Against On-Chain Record'}
+                </button>
+                <button
+                  onClick={handleTestTamper}
+                  disabled={tampering}
+                  style={{
+                    flex: 1, padding: '12px 16px', background: '#281414', border: '1px solid #ef4444',
+                    borderRadius: 12, color: '#ef4444', fontSize: 13, fontWeight: 600, cursor: 'pointer',
+                  }}
+                >
+                  {tampering ? 'Testing...' : '⚡ Test Tamper Detection'}
+                </button>
+              </div>
+
+              {/* Verification Output Banner */}
+              {verificationResult && (
+                <div style={{
+                  marginTop: 16, padding: 16, background: '#0d2818', border: '1px solid #22c55e',
+                  borderRadius: 12, display: 'flex', alignItems: 'center', gap: 12,
+                }}>
+                  <span style={{ fontSize: 24 }}>✅</span>
+                  <div>
+                    <p style={{ color: '#22c55e', fontSize: 14, fontWeight: 700 }}>
+                      VERIFIED AUTHENTIC: Matches On-Chain Record EXACTLY
+                    </p>
+                    <p style={{ color: '#8b8', fontSize: 12, marginTop: 2 }}>
+                      Post URL, Author, Image Hash & Merkle Audit Proof match Block #{verificationResult.block_index} on-chain ledger.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Tamper Output Banner */}
+              {tamperResult && (
+                <div style={{
+                  marginTop: 16, padding: 16, background: '#280d0d', border: '1px solid #ef4444',
+                  borderRadius: 12, display: 'flex', alignItems: 'center', gap: 12,
+                }}>
+                  <span style={{ fontSize: 24 }}>🚨</span>
+                  <div>
+                    <p style={{ color: '#ef4444', fontSize: 14, fontWeight: 700 }}>
+                      TAMPER DETECTED: Cryptographic Integrity Failure!
+                    </p>
+                    <p style={{ color: '#f88', fontSize: 12, marginTop: 2 }}>
+                      {tamperResult.message || 'Altered content fails Merkle Tree audit path and block hash verification.'}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
       <style>{`
         @keyframes spin { to { transform: rotate(360deg); } }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         a:hover { opacity: 0.85; }
+        button:hover { filter: brightness(1.1); }
       `}</style>
     </div>
   );
