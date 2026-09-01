@@ -31,3 +31,6 @@ Thumbs.db
 verifier_key.pem
 test_key.pem
 test_ledger.json
+*.exe
+yandex_response.html
+
