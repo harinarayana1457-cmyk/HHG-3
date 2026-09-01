@@ -1,7 +1,7 @@
 {
   "chain_id": "FACE-VERIFY-CHAIN-2026",
   "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa",
-  "block_height": 5,
+  "block_height": 8,
   "blocks": [
     {
       "index": 0,
@@ -145,6 +145,93 @@
       "difficulty": 2,
       "hash": "0023859e1ff22fde81998850d0f231aa0e40b509139dd5919f69ea6191a70727",
       "signature": "2d8ec9b215412e6324b4d5fda24157838d1767bd81674eee3a1f1141a150ab165170e3917fdc9ed743f9e2c2da483a1d4b057720f5af8ba7d5af2547da830961"
+    },
+    {
+      "index": 5,
+      "timestamp": "2026-08-31T19:07:54Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "a0691d5873cc7f8ba47b694a619cc523e0507670ec6ee8d2cb295da590a15788",
+          "record_id": "REC-95563dfe1ec9ccee-MTHM24GR",
+          "post_url": "https://en.wikipedia.org/wiki/Facial_recognition_system",
+          "author": "Wikipedia Contributors",
+          "title": "Facial recognition system \u2014 Knowledge Record",
+          "content_snippet": "computerized facial recognition involves the measurement of a human's physiological characteristics, facial recognition systems are categorized as biometrics. Although",
+          "source_platform": "Wikipedia/Media",
+          "image_hash_sha256": "584fa32cf6501ce2314e740b63f9aac5006207b2aa17d3acfd11345acbb0dac2",
+          "phash": "010606d40c010342",
+          "face_embedding_digest": "d31ded38f1b1b04968dc92c6a85537793eb4f75df65e63f79631bcc458dc919a",
+          "timestamp": "2026-08-31T19:07:54Z",
+          "merkle_leaf_hash": "66b9a6947ef37fb4f29311b0c945dc6631b561ea5c254089fba40bd23c6d7be0",
+          "signature": "a1e0247ff6c1f39479ca845c16baca7af05084c9cb61d2b1f3790c8d4ac0dd5b26dae8798a155e3880877767996ec427e1e5854e0f14a78aea1c78229bcc5eac",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "a0691d5873cc7f8ba47b694a619cc523e0507670ec6ee8d2cb295da590a15788",
+      "previous_hash": "0023859e1ff22fde81998850d0f231aa0e40b509139dd5919f69ea6191a70727",
+      "nonce": 141,
+      "difficulty": 2,
+      "hash": "00d09b2a88a6164ea88dc8d9228ec62b6f0c3a5c53ad1dfa335e47820f583a6b",
+      "signature": "ca56ca7024e0e7f367b1004aeed1744899138afee09c9e1b3fed034cb6dc20fa49bc1beb95bd245652763e047df027accfeade8c3a3237a2ce05a816c58352cd"
+    },
+    {
+      "index": 6,
+      "timestamp": "2026-08-31T19:09:25Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "4337654638ea197d6802a8fb2fd0f84048ac66bc34abf0088900eba52aa98a9f",
+          "record_id": "REC-mj_x_official-MTHM42FF",
+          "post_url": "https://x.com/michaeljackson",
+          "author": "@michaeljackson",
+          "title": "Michael Jackson Official \u2014 Bad Tour Live Performance Media",
+          "content_snippet": "Official estate account featuring archival Bad World Tour concert recordings, vocal performances, and historic visual media.",
+          "source_platform": "Twitter/X",
+          "image_hash_sha256": "921d13504f4215d934a03ec7f143a3f637d52f9decf6ad4b1a9dbce6a9609dfb",
+          "phash": "316979e9c8890f59",
+          "face_embedding_digest": "de29cb18f0f21ded7dd40387b653bc2321becdb4a31376728c6b568baf89cea5",
+          "timestamp": "2026-08-31T19:09:25Z",
+          "merkle_leaf_hash": "35db7b5417e47b3e401f5f63d87cb784c4052ef06609b90f1c1a7c89a276629a",
+          "signature": "18b85026c50a5b3423e9ef745d48f96ddba87f8b53a14ba3e5e18c8053eff774540dc1d13e57f21d2c996d5f06e64df1b07bed866ead9a585acc4f26386869a2",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "4337654638ea197d6802a8fb2fd0f84048ac66bc34abf0088900eba52aa98a9f",
+      "previous_hash": "00d09b2a88a6164ea88dc8d9228ec62b6f0c3a5c53ad1dfa335e47820f583a6b",
+      "nonce": 172,
+      "difficulty": 2,
+      "hash": "00c397514f0e32980761cc1d93570c8fe5cfe686a745af7792922ec84447e120",
+      "signature": "9b469c7db7d5cf8ee0920ea9981f21db1ca28dc9e1ee377f2a5728a054bb9129256a2cf316cc78e71211f25815507dc7aeced9de7f0d464b0a401c30ad18ac20"
+    },
+    {
+      "index": 7,
+      "timestamp": "2026-08-31T19:11:40Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "5d171b97d56d2ee058c41bb09b5863e7e0b7ee1679f48461216f25eb2bd6c6d9",
+          "record_id": "REC-x_post_techreview-MTHM6WKM",
+          "post_url": "https://x.com/techreview",
+          "author": "@techreview",
+          "title": "MIT Technology Review \u2014 Biometrics & AI Forensics",
+          "content_snippet": "Official channel covering emerging biometric technology, facial verification algorithms, and decentralized trust systems.",
+          "source_platform": "Twitter/X",
+          "image_hash_sha256": "6ed2fe59e46d40d8fdbf60585f75350f0f49e6b00cf734be8bd000b6d110a797",
+          "phash": "e5c9cdc9d68e0e8e",
+          "face_embedding_digest": "c289fc27082e614e1a668f10582a98c71f371e789baab0d5881aa028f22c4afb",
+          "timestamp": "2026-08-31T19:11:40Z",
+          "merkle_leaf_hash": "ca395092b264fd3bcd03f288e8bf12deca747e5dcdae1220f5d9e1c37e7e13f3",
+          "signature": "572d348a0af99518141c0d789d97a30920acb6afde750d010eaed317c07153a1a211023d11440f8d08b3bd4c7371f77dd18befd6cbadc01ea3791de87f963898",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "5d171b97d56d2ee058c41bb09b5863e7e0b7ee1679f48461216f25eb2bd6c6d9",
+      "previous_hash": "00c397514f0e32980761cc1d93570c8fe5cfe686a745af7792922ec84447e120",
+      "nonce": 48,
+      "difficulty": 2,
+      "hash": "0027dc401d51dc59c8c95df372c96fb5f7b14acb1e4940061a1bff8b4a698b46",
+      "signature": "550ae3503245f90f521d3973a262005d0bfb2b5d45e9059b66833e6d88ce223f54ca058e64536437c6b0e2c4d087d6f3a6e173841e9e975aac13e1d02457750e"
     }
   ]
 }
