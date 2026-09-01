@@ -1,7 +1,7 @@
 {
   "chain_id": "FACE-VERIFY-CHAIN-2026",
   "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa",
-  "block_height": 8,
+  "block_height": 9,
   "blocks": [
     {
       "index": 0,
@@ -232,6 +232,35 @@
       "difficulty": 2,
       "hash": "0027dc401d51dc59c8c95df372c96fb5f7b14acb1e4940061a1bff8b4a698b46",
       "signature": "550ae3503245f90f521d3973a262005d0bfb2b5d45e9059b66833e6d88ce223f54ca058e64536437c6b0e2c4d087d6f3a6e173841e9e975aac13e1d02457750e"
+    },
+    {
+      "index": 8,
+      "timestamp": "2026-09-01T16:50:42Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "b976879337902ccea23bd63c00d5aea4c12bbab17d998b7027a5d362680af939",
+          "record_id": "0d508d56a7e8e098",
+          "post_url": "https://tas-ix.media/uploads/posts/2017-02/1487867542_552a25e4974f81.jpg",
+          "author": "tas-ix.media",
+          "title": "Similar image on tas-ix.media",
+          "content_snippet": "Visually similar image found at tas-ix.media.",
+          "source_platform": "Web",
+          "image_hash_sha256": "0d508d56a7e8e098",
+          "phash": "22321ad0e2e282a0",
+          "face_embedding_digest": "0.009248,0.042815,0.042815,0.022835,0.022835,0.924802,0.022835,0.045669",
+          "timestamp": "2026-09-01T16:50:42Z",
+          "merkle_leaf_hash": "eb1959ac42c402e8b65f6289a17f522df37574e7ae61fee08475cb6d1f728bda",
+          "signature": "936ae69794d486d9036410a068ad5dc6b64eb0eb0b9468f560903ede9682a2e38a6586661a76b30470ba250b624ef45e9c5c4258f70743b707d8ec5722e47d57",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "b976879337902ccea23bd63c00d5aea4c12bbab17d998b7027a5d362680af939",
+      "previous_hash": "0027dc401d51dc59c8c95df372c96fb5f7b14acb1e4940061a1bff8b4a698b46",
+      "nonce": 223,
+      "difficulty": 2,
+      "hash": "0062ccb6e413bee5e35e038c7145d0b00b047ffe905542477562959d25fcc120",
+      "signature": "eb3944378da85ed4917010ccace31370803f98ee10ea74ea2c4eac6bc3658ddb3061e83e4a59dfa6b778ce1cac4bae650353bafe94547afe088223075106be2e"
     }
   ]
 }

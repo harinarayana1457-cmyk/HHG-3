@@ -103,14 +103,19 @@ export default function App() {
       const anchorData = await anchorRes.json();
       if (!anchorRes.ok || !anchorData.success) throw new Error(anchorData.detail || 'Blockchain anchoring failed.');
 
+      const receipt = anchorData.receipt || anchorData.proof || {};
+
       setBlockchainProof({
-        ...anchorData.proof,
+        block_number: receipt.block_number ?? 1,
+        block_hash: receipt.block_hash || '0000000000000000',
+        merkle_root: receipt.merkle_root || '0000000000000000',
+        tx_id: receipt.tx_id || '',
         match: match,
         face: face,
         phash: detectedPhash,
       });
     } catch (err) {
-      console.error('Blockchain error:', err);
+      console.error('Blockchain anchoring error:', err);
     } finally {
       setAnchoring(false);
     }
@@ -291,7 +296,7 @@ export default function App() {
           )}
         </div>
 
-        {/* ---- RIGHT: Matched Result + Blockchain Record ---- */}
+        {/* ---- RIGHT: Matched Result ---- */}
         <div style={{ flex: 1, minWidth: 280, maxWidth: 410 }}>
           <p style={{ color: '#666', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 10 }}>
             Matched Social Media Result
@@ -399,17 +404,16 @@ export default function App() {
                 <p style={{ color: '#556', fontSize: 12 }}>Tamper-evident Proof-of-Work & Merkle Tree ledger record</p>
               </div>
             </div>
-            {anchoring && (
-              <span style={{ color: '#0af', fontSize: 12 }}>Anchoring to block...</span>
-            )}
-            {blockchainProof && !anchoring && (
+            {anchoring ? (
+              <span style={{ color: '#0af', fontSize: 12 }}>Mining Block...</span>
+            ) : blockchainProof ? (
               <span style={{
                 background: '#0d2818', color: '#22c55e', border: '1px solid #14532d',
                 fontSize: 11, fontWeight: 700, padding: '4px 10px', borderRadius: 8,
               }}>
                 🟢 ON-CHAIN ANCHORED
               </span>
-            )}
+            ) : null}
           </div>
 
           {blockchainProof && (
@@ -423,7 +427,9 @@ export default function App() {
               }}>
                 <div style={{ background: '#08080a', padding: 12, borderRadius: 12, border: '1px solid #181820' }}>
                   <p style={{ color: '#556', fontSize: 11, fontWeight: 600 }}>BLOCK HEIGHT</p>
-                  <p style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginTop: 2 }}>#{blockchainProof.block_index}</p>
+                  <p style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginTop: 2 }}>
+                    #{blockchainProof.block_number}
+                  </p>
                 </div>
                 <div style={{ background: '#08080a', padding: 12, borderRadius: 12, border: '1px solid #181820' }}>
                   <p style={{ color: '#556', fontSize: 11, fontWeight: 600 }}>BLOCK HASH (SHA-256)</p>
@@ -481,7 +487,7 @@ export default function App() {
                       VERIFIED AUTHENTIC: Matches On-Chain Record EXACTLY
                     </p>
                     <p style={{ color: '#8b8', fontSize: 12, marginTop: 2 }}>
-                      Post URL, Author, Image Hash & Merkle Audit Proof match Block #{verificationResult.block_index} on-chain ledger.
+                      Post URL, Author, Image Hash & Merkle Audit Proof match Block #{verificationResult.block_number ?? blockchainProof.block_number} on-chain ledger.
                     </p>
                   </div>
                 </div>
