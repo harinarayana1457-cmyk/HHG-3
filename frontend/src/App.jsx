@@ -38,7 +38,7 @@ export default function App() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          face_crop_base64: face.face_crop_base64,
+          face_crop_base64: b64,
           embedding: face.embedding,
           phash: phash,
         }),
