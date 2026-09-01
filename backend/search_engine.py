@@ -156,7 +156,7 @@ class SearchEngine:
                     "author": "@michaeljackson",
                     "title": "Michael Jackson Official — Bad Tour Live Performance Media",
                     "content_snippet": "Official estate account featuring archival Bad World Tour concert recordings, vocal performances, and historic visual media.",
-                    "image_url": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&auto=format&fit=crop&q=80",
+                    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Michael_Jackson_in_1988.jpg/440px-Michael_Jackson_in_1988.jpg",
                     "timestamp": "2026-08-29T10:00:00Z",
                     "confidence_score": 0.98,
                     "search_engine": "Visual Biometric Signature Match"
