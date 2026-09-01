@@ -1,11 +1,10 @@
 """
-Reverse Web and Social Media Search Engine using Yandex CBIR (real reverse image search).
-Uploads the face image to Yandex and returns real matched images with their source page URLs.
+Reverse Web and Social Media Search Engine using Yandex CBIR.
+Parses REAL source page URLs from Yandex's "Sites with this image" section.
+Prioritises exact matches over visually-similar images.
 """
 
-import os
 import re
-import json
 import time
 import hashlib
 import io
@@ -32,120 +31,64 @@ class SearchEngine:
     def calculate_cosine_similarity(self, vec_a: List[float], vec_b: List[float]) -> float:
         a = np.array(vec_a, dtype=np.float32)
         b = np.array(vec_b, dtype=np.float32)
-        norm_a = np.linalg.norm(a)
-        norm_b = np.linalg.norm(b)
+        norm_a, norm_b = np.linalg.norm(a), np.linalg.norm(b)
         if norm_a == 0 or norm_b == 0:
             return 0.0
         return float(np.dot(a, b) / (norm_a * norm_b))
 
     def _image_b64_to_bytes(self, face_crop_b64: str) -> bytes:
-        """Convert base64 image (with or without data: prefix) to resized JPEG bytes."""
         import base64
         if "," in face_crop_b64:
             face_crop_b64 = face_crop_b64.split(",", 1)[1]
         raw = base64.b64decode(face_crop_b64)
+        if len(raw) < 1_500_000 and raw.startswith(b'\xff\xd8'):
+            return raw
         try:
             img = Image.open(io.BytesIO(raw)).convert("RGB")
-            img.thumbnail((600, 600))
+            img.thumbnail((800, 800))
             buf = io.BytesIO()
-            img.save(buf, format="JPEG", quality=85)
+            img.save(buf, format="JPEG", quality=90)
             return buf.getvalue()
         except Exception:
             return raw
 
     def _detect_platform(self, url: str) -> str:
-        """Detect social media platform from URL."""
-        if any(x in url for x in ["twitter.com", "x.com", "twimg.com", "sotwe.com", "vanlett.net"]):
+        u = url.lower()
+        if any(x in u for x in ["twitter.com", "x.com", "twimg.com", "sotwe.com", "vanlett.net", "nitter."]):
             return "Twitter/X"
-        elif any(x in url for x in ["instagram.com", "cdninstagram.com"]):
+        if any(x in u for x in ["instagram.com", "cdninstagram.com"]):
             return "Instagram"
-        elif "reddit.com" in url:
+        if "reddit.com" in u:
             return "Reddit"
-        elif any(x in url for x in ["facebook.com", "fbcdn.net"]):
+        if any(x in u for x in ["facebook.com", "fbcdn.net"]):
             return "Facebook"
-        elif any(x in url for x in ["pinterest.com", "pinimg.com"]):
+        if any(x in u for x in ["pinterest.com", "pinimg.com"]):
             return "Pinterest"
-        elif any(x in url for x in ["youtube.com", "ytimg.com"]):
+        if any(x in u for x in ["youtube.com", "ytimg.com"]):
             return "YouTube"
-        elif "tiktok.com" in url:
+        if "tiktok.com" in u:
             return "TikTok"
-        elif "wikipedia.org" in url or "wikimedia.org" in url:
+        if any(x in u for x in ["wikipedia.org", "wikimedia.org"]):
             return "Wikipedia"
-        elif any(x in url for x in ["rollingstone.com", "nrk.no", "nrj.fr", "standard.co.uk"]):
-            return "News"
-        elif "michaeljackson.com" in url or "smehost.net" in url:
+        if any(x in u for x in ["rollingstone", "nrk.no", "nrj.fr", "standard.co.uk",
+                                  "holrmagazine", "ohmymag", "epimg", "picmix"]):
+            return "News / Media"
+        if any(x in u for x in ["michaeljackson.com", "smehost.net"]):
             return "Official Website"
-        else:
-            return "Web"
-
-    def _platform_score_bonus(self, platform: str) -> float:
-        """Give higher confidence score to social media platforms."""
-        bonuses = {
-            "Twitter/X": 0.05,
-            "Instagram": 0.04,
-            "Official Website": 0.03,
-            "News": 0.02,
-            "Wikipedia": 0.01,
-        }
-        return bonuses.get(platform, 0.0)
-
-    def _get_source_page_url(self, image_url: str, platform: str, site_text: str) -> str:
-        """
-        Try to infer the source page URL from the image CDN URL.
-        For Twitter images, reconstruct tweet page URL.
-        For Pinterest, link to pinterest.
-        For YouTube thumbnails, link to the video.
-        """
-        parsed = urlparse(image_url)
-
-        # Twitter CDN -> tweet page (link to search instead since we have no tweet ID)
-        if "twimg.com" in image_url or "sotwe.com" in site_text or "vanlett.net" in site_text:
-            return "https://x.com/search?q=michaeljackson&f=image"
-
-        # Pinterest image -> pinterest board
-        if "pinimg.com" in image_url or "pinterest.com" in image_url:
-            return "https://www.pinterest.com/search/pins/?q=michael+jackson"
-
-        # YouTube thumbnail -> video
-        if "ytimg.com" in image_url:
-            video_match = re.search(r"/vi/([^/]+)/", image_url)
-            if video_match:
-                return f"https://www.youtube.com/watch?v={video_match.group(1)}"
-            return "https://www.youtube.com/results?search_query=michael+jackson"
-
-        # TikTok
-        if "tiktok.com" in image_url:
-            item_match = re.search(r"itemId=(\d+)", image_url)
-            if item_match:
-                return f"https://www.tiktok.com/@michaeljackson/video/{item_match.group(1)}"
-            return "https://www.tiktok.com/search?q=michael+jackson"
-
-        # Wikipedia
-        if "wikimedia.org" in image_url or "wikipedia.org" in image_url:
-            return "https://en.wikipedia.org/wiki/Michael_Jackson"
-
-        # michaeljackson.com via smehost CDN
-        if "smehost.net" in image_url:
-            return "https://www.michaeljackson.com"
-
-        # Rolling Stone
-        if "rollingstone.com" in image_url:
-            return "https://www.rollingstone.com/music/music-news/michael-jackson"
-
-        # NRK
-        if "nrk.no" in image_url:
-            return "https://www.nrk.no"
-
-        # Fallback: source domain
-        return f"https://{parsed.netloc}"
+        return "Web"
 
     def yandex_reverse_image_search(self, image_bytes: bytes) -> List[Dict[str, Any]]:
         """
-        Upload image bytes to Yandex CBIR and parse real reverse image search results.
-        Returns real matched image URLs with source page URLs.
+        Upload image to Yandex CBIR and return real results.
+
+        Priority order:
+        1. "Sites with this image" – exact image matches with REAL source page URLs
+        2. "Similar images"       – visually similar images
         """
-        results = []
-        seen_images = set()
+        exact_results: List[Dict] = []
+        similar_results: List[Dict] = []
+        seen_images: set = set()
+        seen_pages: set = set()
 
         try:
             r = self.session.post(
@@ -156,97 +99,90 @@ class SearchEngine:
                 timeout=25,
                 allow_redirects=True,
             )
-
             if r.status_code != 200:
                 print(f"[Yandex] Upload failed: {r.status_code}")
                 return []
 
             soup = BeautifulSoup(r.text, "html.parser")
 
-            # --- Process "Sites with this image" section (highest confidence) ---
-            sites_section = soup.find(class_=re.compile(r"CbirSites"))
-            if sites_section:
-                items = sites_section.find_all("a", href=True)
-                current_image_url = None
-                current_site_text = ""
-                for a in items:
-                    href = a["href"]
-                    text = a.get_text(strip=True)
-                    # Image thumbnail link (CDN URL)
-                    if href.startswith("http") and any(
-                        ext in href for ext in [".jpg", ".jpeg", ".png", ".webp", "twimg.com", "media"]
-                    ):
-                        current_image_url = href
-                        current_site_text = text
-                    # Source page URL (non-yandex, has actual domain)
-                    elif href.startswith("http") and "yandex" not in href and current_image_url:
-                        source_url = href.split("?utm_")[0]
-                        if current_image_url not in seen_images:
-                            seen_images.add(current_image_url)
-                            platform = self._detect_platform(source_url or current_image_url)
-                            domain = urlparse(source_url).netloc
-                            title = current_site_text or f"Match found on {domain}"
-                            confidence = round(0.95 + self._platform_score_bonus(platform), 2)
-                            results.append({
-                                "id": hashlib.sha256(current_image_url.encode()).hexdigest()[:16],
-                                "platform": platform,
-                                "post_url": source_url,
-                                "author": domain,
-                                "title": title,
-                                "content_snippet": f"This image was discovered at {domain} via Yandex Visual Reverse Image Search.",
-                                "image_url": current_image_url,
-                                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-                                "confidence_score": confidence,
-                                "search_engine": "Yandex Reverse Image Search",
-                            })
-                        current_image_url = None
-                        current_site_text = ""
+            # ----------------------------------------------------------------
+            # 1. "Sites with this image" — EXACT matches with REAL source URLs
+            # ----------------------------------------------------------------
+            site_items = soup.select(".CbirSites-Item")
+            for item in site_items:
+                thumb_tag = item.select_one(".Thumb, .CbirSites-ItemThumb a, a[href*='http']")
+                title_tag = item.select_one(".CbirSites-ItemTitle a, .Link_view_default, .CbirSites-ItemDomain a")
 
-            # --- Process "Similar Images" section ---
+                img_url = thumb_tag["href"] if thumb_tag and thumb_tag.has_attr("href") else None
+                source_url = title_tag["href"] if title_tag and title_tag.has_attr("href") else None
+                title_text = title_tag.get_text(strip=True) if title_tag else ""
+
+                if not source_url or not source_url.startswith("http") or "yandex" in source_url:
+                    continue
+
+                # Strip tracking params
+                clean_url = re.sub(r'[?&]utm_[^&]*', '', source_url).rstrip('?&')
+                clean_url = re.sub(r'[?&]refer=[^&]*', '', clean_url).rstrip('?&')
+
+                if clean_url in seen_pages:
+                    continue
+                seen_pages.add(clean_url)
+
+                if img_url and img_url.startswith("http"):
+                    seen_images.add(img_url)
+                else:
+                    img_url = clean_url
+
+                platform = self._detect_platform(clean_url)
+                domain = urlparse(clean_url).netloc
+                title = title_text or f"Exact match on {domain}"
+
+                exact_results.append({
+                    "id": hashlib.sha256(clean_url.encode()).hexdigest()[:16],
+                    "platform": platform,
+                    "post_url": clean_url,        # REAL source page URL!
+                    "author": domain,
+                    "title": title,
+                    "content_snippet": f"Exact copy of this image found at {domain} via Yandex Reverse Search.",
+                    "image_url": img_url,
+                    "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                    "confidence_score": 0.99,
+                    "search_engine": "Yandex — Exact Image Match",
+                    "is_exact": True,
+                })
+
+            # ----------------------------------------------------------------
+            # 2. "Similar Images" — visually similar
+            # ----------------------------------------------------------------
             similar_section = soup.find("section", class_=re.compile(r"CbirSimilar"))
             if similar_section:
-                img_links = similar_section.find_all("a", href=True)
-                for a in img_links:
+                for a in similar_section.find_all("a", href=True):
                     href = a["href"]
                     url_match = re.search(r"img_url=([^&]+)", href)
-                    if url_match:
-                        img_url = unquote(url_match.group(1))
-                        if img_url not in seen_images and img_url.startswith("http"):
-                            seen_images.add(img_url)
-                            platform = self._detect_platform(img_url)
-                            source_page = self._get_source_page_url(img_url, platform, "")
-                            domain = urlparse(img_url).netloc
-                            confidence = round(0.88 + self._platform_score_bonus(platform), 2)
-                            results.append({
-                                "id": hashlib.sha256(img_url.encode()).hexdigest()[:16],
-                                "platform": platform,
-                                "post_url": source_page,
-                                "author": domain,
-                                "title": f"Visually matching image on {domain}",
-                                "content_snippet": f"Reverse image search found a visually similar image hosted at {domain}.",
-                                "image_url": img_url,
-                                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-                                "confidence_score": confidence,
-                                "search_engine": "Yandex Similar Images",
-                            })
+                    if not url_match:
+                        continue
+                    img_url = unquote(url_match.group(1))
+                    if not img_url.startswith("http") or img_url in seen_images:
+                        continue
+                    seen_images.add(img_url)
+                    platform = self._detect_platform(img_url)
+                    domain = urlparse(img_url).netloc
+                    similar_results.append({
+                        "id": hashlib.sha256(img_url.encode()).hexdigest()[:16],
+                        "platform": platform,
+                        "post_url": img_url,
+                        "author": domain,
+                        "title": f"Similar image on {domain}",
+                        "content_snippet": f"Visually similar image found at {domain}.",
+                        "image_url": img_url,
+                        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                        "confidence_score": 0.85,
+                        "search_engine": "Yandex — Similar Images",
+                        "is_exact": False,
+                    })
 
-            # Prioritize social media platforms
-            def sort_key(x):
-                prio = {
-                    "Official Website": 100,
-                    "Twitter/X": 95,
-                    "Instagram": 90,
-                    "TikTok": 85,
-                    "YouTube": 80,
-                    "Pinterest": 75,
-                    "News": 70,
-                    "Wikipedia": 65,
-                    "Web": 50,
-                }
-                return (prio.get(x["platform"], 50), x.get("confidence_score", 0))
-
-            results.sort(key=sort_key, reverse=True)
-            print(f"[Yandex] Found {len(results)} real matches")
+            results = exact_results + similar_results
+            print(f"[Yandex] {len(exact_results)} exact + {len(similar_results)} similar = {len(results)} total")
             return results
 
         except Exception as e:
@@ -260,14 +196,9 @@ class SearchEngine:
         phash: str,
         custom_query: Optional[str] = None,
     ) -> List[Dict[str, Any]]:
-        """
-        Perform a real reverse image search using Yandex CBIR.
-        Returns real matched images with actual source URLs from the web.
-        """
         image_bytes = self._image_b64_to_bytes(face_crop_base64)
-        results = self.yandex_reverse_image_search(image_bytes)
-        return results
+        return self.yandex_reverse_image_search(image_bytes)
 
 
-# Global singleton instance
+# Global singleton
 search_engine = SearchEngine()

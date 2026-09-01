@@ -13,13 +13,22 @@ img_bytes = buf.getvalue()
 b64 = 'data:image/jpeg;base64,' + base64.b64encode(img_bytes).decode()
 
 results = search_engine.search_by_face(b64, [0.1]*128, 'phash123')
-print(f'Total real results: {len(results)}')
-for i, r in enumerate(results):
-    platform = r['platform']
-    author = r['author']
-    image_url = r['image_url'][:80]
-    post_url = r['post_url'][:80]
-    print(f'[{i+1}] {platform} | {author}')
-    print(f'     Image: {image_url}')
-    print(f'     URL:   {post_url}')
+
+exact = [r for r in results if r.get('is_exact')]
+similar = [r for r in results if not r.get('is_exact')]
+
+print(f'EXACT matches from Sites: {len(exact)}')
+for i, r in enumerate(exact):
+    print(f'[EXACT {i+1}]')
+    print(f'  Platform: {r["platform"]}')
+    print(f'  Image:    {r["image_url"][:100]}')
+    print(f'  Source:   {r["post_url"][:100]}')
+    print(f'  Engine:   {r["search_engine"]}')
+    print()
+
+print(f'SIMILAR matches: {len(similar)}')
+print('First 3:')
+for r in similar[:3]:
+    print(f'  Image: {r["image_url"][:80]}')
+    print(f'  URL:   {r["post_url"][:80]}')
     print()
