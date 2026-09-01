@@ -105,7 +105,7 @@ export default function App() {
 
       const receipt = anchorData.receipt || anchorData.proof || {};
 
-      setBlockchainProof({
+      const proofObj = {
         block_number: receipt.block_number ?? 1,
         block_hash: receipt.block_hash || '0000000000000000',
         merkle_root: receipt.merkle_root || '0000000000000000',
@@ -113,7 +113,12 @@ export default function App() {
         match: match,
         face: face,
         phash: detectedPhash,
-      });
+      };
+
+      setBlockchainProof(proofObj);
+
+      // Auto verify right after anchoring
+      autoVerify(proofObj);
     } catch (err) {
       console.error('Blockchain anchoring error:', err);
     } finally {
@@ -121,10 +126,35 @@ export default function App() {
     }
   };
 
+  const autoVerify = async (proof) => {
+    if (!proof) return;
+    try {
+      const verifyRes = await fetch('/api/blockchain/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          candidate_record_id: proof.match.id,
+          candidate_tx_id: proof.tx_id,
+          candidate_post_url: proof.match.post_url,
+          candidate_author: proof.match.author || '@web_source',
+          candidate_title: proof.match.title || 'Discovered Media Match',
+          candidate_content_snippet: proof.match.content_snippet || '',
+          candidate_image_hash: proof.match.id,
+          candidate_phash: proof.phash,
+          candidate_face_digest: proof.face?.embedding ? proof.face.embedding.slice(0, 8).join(',') : '0,0,0,0',
+        }),
+      });
+      const verifyData = await verifyRes.json();
+      setVerificationResult(verifyData);
+    } catch (err) {
+      console.error('Auto verify error:', err);
+    }
+  };
+
   const handleReVerify = async () => {
     if (!blockchainProof) return;
     setVerifying(true);
-    setTamperResult(null);
+    setTamperResult(null); // Clear red tamper result when re-verifying authentic data!
 
     try {
       const verifyRes = await fetch('/api/blockchain/verify', {
@@ -154,7 +184,7 @@ export default function App() {
   const handleTestTamper = async () => {
     if (!blockchainProof) return;
     setTampering(true);
-    setVerificationResult(null);
+    setVerificationResult(null); // Clear green authentic result when testing tamper!
 
     try {
       const tamperRes = await fetch('/api/blockchain/tamper-demo', {
@@ -163,7 +193,7 @@ export default function App() {
         body: JSON.stringify({
           tx_id: blockchainProof.tx_id,
           field_to_alter: 'post_url',
-          altered_value: 'https://fake-tampered-site.com/fake-post',
+          altered_value: 'https://fake-tampered-site.com/altered-fake-url',
         }),
       });
       const tamperData = await tamperRes.json();
@@ -505,7 +535,7 @@ export default function App() {
                       TAMPER DETECTED: Cryptographic Integrity Failure!
                     </p>
                     <p style={{ color: '#f88', fontSize: 12, marginTop: 2 }}>
-                      {tamperResult.message || 'Altered content fails Merkle Tree audit path and block hash verification.'}
+                      {tamperResult.simulated_verification?.audit_breakdown?.[2]?.check || 'Altered content fails Merkle Tree audit path and block hash verification.'} - Altered URL: {tamperResult.simulated_verification?.audit_breakdown?.[2]?.submitted || 'https://fake-tampered-site.com'}
                     </p>
                   </div>
                 </div>
