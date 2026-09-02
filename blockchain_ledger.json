@@ -1,7 +1,7 @@
 {
   "chain_id": "FACE-VERIFY-CHAIN-2026",
   "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa",
-  "block_height": 12,
+  "block_height": 15,
   "blocks": [
     {
       "index": 0,
@@ -348,6 +348,93 @@
       "difficulty": 2,
       "hash": "0014bf013c66c8a5373cfb9147cefff2dd82e497f94a4f0ab2ed89e217c2b2ca",
       "signature": "35b20f916329555c2baa41f73f4f461da3f0f9f8a29bc8ef9a7717374e521022d652785add7abd3509b23e90175a78629feec86b0977e1960d8278432a2e8b8e"
+    },
+    {
+      "index": 12,
+      "timestamp": "2026-09-01T17:50:24Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "f79fe17578e8c318a069a2d9e79a4650bebf4edf6951b0180064518874587b42",
+          "record_id": "070a5ce401ea8123",
+          "post_url": "https://user-images.githubusercontent.com/34688999/131269371-b843e4ed-0ef6-41ef-8f5a-3f74a4ccd525.png",
+          "author": "user-images.githubusercontent.com",
+          "title": "Similar image on user-images.githubusercontent.com",
+          "content_snippet": "Visually similar image found at user-images.githubusercontent.com.",
+          "source_platform": "Web",
+          "image_hash_sha256": "070a5ce401ea8123",
+          "phash": "2103030301010100",
+          "face_embedding_digest": "0.009986,0.009818,0.009803,0.006522,0.006162,0.998579,0.006522,0.012684",
+          "timestamp": "2026-09-01T17:50:24Z",
+          "merkle_leaf_hash": "68615b440a6f0fbe4cf89172cf14599b7e0a20bfb502221f82833130c986aebe",
+          "signature": "cb69589ad07d0ab20eedbe317710575adc22c803d592f7ab7db6ed1bb879e1032154c8040f25f99a0eaad54729c83b55a67ccab7463fbb30c38d9e4cc11d92e2",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "f79fe17578e8c318a069a2d9e79a4650bebf4edf6951b0180064518874587b42",
+      "previous_hash": "0014bf013c66c8a5373cfb9147cefff2dd82e497f94a4f0ab2ed89e217c2b2ca",
+      "nonce": 289,
+      "difficulty": 2,
+      "hash": "0074faee04eb488af7b3f466fb4732d97a6fa6221113dab8601794f7310b42dc",
+      "signature": "ac20f0d4b4788a6b0bd4d539a520ef0b889f5523a13c97843a4fdacb8d1c57e51ad104610e1b2b4174858c53232daa5792e04898bb40e7a422959c6ad781cc12"
+    },
+    {
+      "index": 13,
+      "timestamp": "2026-09-01T17:50:40Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "f4c9c7b944a44100c36f3afae55b65db3cec96db69a49d61f7b6bb2047a73ac5",
+          "record_id": "0d508d56a7e8e098",
+          "post_url": "https://tas-ix.media/uploads/posts/2017-02/1487867542_552a25e4974f81.jpg",
+          "author": "tas-ix.media",
+          "title": "Similar image on tas-ix.media",
+          "content_snippet": "Visually similar image found at tas-ix.media.",
+          "source_platform": "Web",
+          "image_hash_sha256": "0d508d56a7e8e098",
+          "phash": "22321ad0e2e282a0",
+          "face_embedding_digest": "0.009248,0.042815,0.042815,0.022835,0.022835,0.924802,0.022835,0.045669",
+          "timestamp": "2026-09-01T17:50:40Z",
+          "merkle_leaf_hash": "5b6bebe6fad39fc237066a340c3f513d493f29e655636e08ae7962528cb6af9a",
+          "signature": "d06bc8cbe92cdb9996ae803bf00aea4891331560bd0268273525c361fc7cd7d174df2ab63a132efa6e263a1225b48f9965232c20894bfbe9d28f2668fed599b0",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "f4c9c7b944a44100c36f3afae55b65db3cec96db69a49d61f7b6bb2047a73ac5",
+      "previous_hash": "0074faee04eb488af7b3f466fb4732d97a6fa6221113dab8601794f7310b42dc",
+      "nonce": 252,
+      "difficulty": 2,
+      "hash": "005d8e231b69ce8a66e44131f896c319efee09547a95ed6d3dd271f7f25769b0",
+      "signature": "bfb01e991fe4d6f73607313ec49288705e837786148e4ce8f4cfa3fd334408a4ebfc4ce471998cd688b962bd3d8ef5e87952f2c591ef58acd9b442281e15efb6"
+    },
+    {
+      "index": 14,
+      "timestamp": "2026-09-02T16:03:20Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "b5833cbace4ad05fe576f0b5d71ee02c33570b7db928239023161df34ce4b548",
+          "record_id": "REC-E2E-d25cf67681147f47",
+          "post_url": "https://cdn.pixabay.com/photo/2018/07/28/08/29/face-3567518_1280.png",
+          "author": "cdn.pixabay.com",
+          "title": "Similar image on cdn.pixabay.com",
+          "content_snippet": "Visually similar image found at cdn.pixabay.com.",
+          "source_platform": "Web",
+          "image_hash_sha256": "8397a8a5e1bbb4a56eb8f650e4382e86a8f6679450dc9fac641208b770e9e770",
+          "phash": "007068e8d0f07000",
+          "face_embedding_digest": "2e07ef709a28185fd718a509d3877ba6f0f30c9ce2b3a02a92affae3ed9c26c6",
+          "timestamp": "2026-09-02T16:03:20Z",
+          "merkle_leaf_hash": "2ab72c721fe43d4c35d55b01bf99216290967aa4d969937794034ab1d661bc61",
+          "signature": "32966ff600e95e822de33d96f549d78cc54cf6a4c109ce3d1fca80d2b0179d104e99e9d7eb23a922f9c3d14e8426f07eb8aed0632dd8e17c178010176955f7eb",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "b5833cbace4ad05fe576f0b5d71ee02c33570b7db928239023161df34ce4b548",
+      "previous_hash": "005d8e231b69ce8a66e44131f896c319efee09547a95ed6d3dd271f7f25769b0",
+      "nonce": 198,
+      "difficulty": 2,
+      "hash": "00a71dc3defb3c548f7f98f598c66ab9dcfab4a1e75fd7fb985858736c82c7c0",
+      "signature": "d8cc43c3e4f176bc58a0326aac161a8c1bfc61b03d12709e2874cee435769dd3870cf0a76eb61f1829ec2f4a09ebbfe85f7a359363568b3f14df511452648da7"
     }
   ]
 }
