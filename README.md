@@ -1,42 +1,53 @@
-# FaceLedger: Face Scan → Web Discovery → Blockchain Verification Pipeline
+<div align="center">
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
-[![React 18](https://img.shields.io/badge/React-18-cyan.svg)](https://reactjs.org/)
-[![OpenCV](https://img.shields.io/badge/OpenCV-4.x-green.svg)](https://opencv.org/)
-[![Solidity](https://img.shields.io/badge/Solidity-0.8.20-lightgrey.svg)](https://soliditylang.org/)
+# 🔍 FACELEDGER (HHG-3)
+### Biometric Face Scan → Social Web Discovery → Merkle Blockchain Forensic Verification Pipeline
 
-An end-to-end forensic verification pipeline that accepts an image face scan, discovers matching public social media posts and media across the web via reverse search, and commits the evidence to a tamper-evident cryptographic blockchain with Merkle proofs, digital signatures, and interactive re-verification.
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
+[![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)](https://opencv.org/)
+[![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636?style=for-the-badge&logo=solidity&logoColor=white)](https://soliditylang.org/)
+[![Blockchain](https://img.shields.io/badge/Blockchain-Merkle%20%2B%20PoW-blue?style=for-the-badge&logo=blockchaindotcom&logoColor=white)](https://github.com/harinarayana1457-cmyk/HHG-3)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
+<p align="center">
+  <b>FaceLedger</b> is an end-to-end forensic verification pipeline that accepts an image face scan, discovers matching public social media posts across the web via multi-engine reverse discovery, and anchors cryptographic evidence to a tamper-evident blockchain with <b>Merkle proofs</b>, <b>ECDSA digital signatures</b>, and an interactive <b>re-verification laboratory</b>.
+</p>
+
+[✨ Key Features](#-key-features) • [🏛️ Architecture](#-system-architecture) • [🚀 Quickstart](#-quickstart-guide) • [📂 Project Structure](#-project-structure) • [⛓️ Blockchain Details](#️-cryptographic-blockchain-details) • [🧪 Testing](#-automated-testing) • [🔗 Connect](#-connect--contribute)
+
+</div>
 
 ---
 
 ## 🌟 Key Features
 
-1. **Biometric Face Identification & Feature Encoding**:
-   - Detects faces, bounding boxes, and facial landmarks (eyes, nose bridge, mouth corners, chin).
-   - Generates a **128-dimensional L2-normalized biometric embedding vector** combining facial geometry, local structural gradients, and 2D-DCT frequency coefficients.
-   - Computes raw image **SHA-256 cryptographic digests** and **64-bit Perceptual Hashes (pHash/dHash)** for visual invariance.
+### 1. 🧬 Biometric Face Identification & Feature Encoding
+* Detects faces, bounding boxes, and facial landmarks (eyes, nose bridge, mouth corners, chin).
+* Generates a **128-dimensional L2-normalized biometric embedding vector** combining facial geometry, local structural gradients, and 2D-DCT frequency coefficients.
+* Computes raw image **SHA-256 cryptographic digests** and **64-bit Perceptual Hashes (pHash/dHash)** for visual invariance.
 
-2. **Genuine Reverse Web & Social Media Discovery**:
-   - Executes live multi-engine reverse search and social platform indexing (Twitter/X, Reddit, Instagram, LinkedIn, Wikipedia, and Tech News).
-   - Extracts genuine post URLs, authors, publish timestamps, captions, and thumbnails.
-   - Calculates facial cosine similarity and perceptual match scores for each discovered post.
-   - Supports optional SerpApi / Google Lens / RapidAPI keys alongside automated live reverse search engines.
+### 2. 🌐 Reverse Web & Social Media Discovery
+* Executes live multi-engine reverse search and social platform indexing (Twitter/X, Reddit, Instagram, LinkedIn, Wikipedia, and Tech News).
+* Extracts genuine post URLs, authors, publish timestamps, captions, and thumbnails.
+* Calculates facial cosine similarity and perceptual match scores for each discovered post.
+* Supports optional SerpApi / Google Lens / RapidAPI keys alongside automated live reverse search engines.
 
-3. **Dual Blockchain Evidence Layer**:
-   - **Native Cryptographic Merkle Blockchain**: High-performance Python-powered blockchain featuring binary Merkle Trees, SHA-256 Proof-of-Work mining, and ECDSA (secp256k1) validator signatures. Operates out of the box with zero external faucet or gas token dependencies.
-   - **EVM Solidity Smart Contract** (`contracts/FaceEvidenceRegistry.sol`): Production-ready Solidity smart contract for deployment to Ethereum (Sepolia), Polygon (Amoy), Arbitrum, or local Hardhat/Anvil nodes.
+### 3. ⛓️ Dual Blockchain Evidence Layer
+* **Native Cryptographic Merkle Blockchain**: High-performance Python-powered blockchain featuring binary Merkle Trees, SHA-256 Proof-of-Work mining, and ECDSA (`secp256k1`) validator signatures. Runs locally out of the box with zero external gas or token dependencies.
+* **EVM Solidity Smart Contract** (`contracts/FaceEvidenceRegistry.sol`): Production-ready Solidity smart contract for deployment to Ethereum (Sepolia), Polygon (Amoy), Arbitrum, or local Hardhat/Anvil nodes.
 
-4. **Interactive Tamper Simulation & Re-Verification Laboratory**:
-   - Real-time audit tool allowing users to test authentic data vs deliberately tampered fields (e.g. altering 1 character in the author handle, modifying post text, or changing 1 byte in the image hash).
-   - Instantly flags cryptographic violations with detailed visual diffs and Merkle proof path inspections.
+### 4. 🛡️ Interactive Tamper Simulation & Re-Verification Laboratory
+* Real-time audit tool allowing users to test authentic data vs deliberately tampered fields (e.g. altering 1 character in the author handle, modifying post text, or changing 1 byte in the image hash).
+* Instantly flags cryptographic violations with detailed visual diffs and Merkle proof path inspections.
 
-5. **Full Cyber-Security Web Interface**:
-   - Sleek, modern dark-mode user interface with step-by-step wizard, interactive canvas, webcam capture, preset face library, and live Blockchain Explorer.
+### 5. 🎛️ Full Cyber-Security Web Interface
+* Sleek, modern dark-mode user interface with step-by-step wizard, interactive canvas, webcam capture, preset face library, and live Blockchain Explorer.
 
 ---
 
-## 📐 Architecture Diagram
+## 🏛️ System Architecture
 
 ```mermaid
 flowchart TD
@@ -71,7 +82,8 @@ flowchart TD
 
 ## 📂 Project Structure
 
-```
+```text
+HHG-3/
 ├── backend/
 │   ├── face_engine.py           # Face detection, landmark extraction, 128-d embeddings, SHA-256, pHash
 │   ├── search_engine.py         # Reverse web/social media discovery engine & similarity scorer
@@ -95,6 +107,11 @@ flowchart TD
 │   ├── package.json
 │   └── vite.config.js
 ├── sample_faces/                        # Sample portrait assets for 1-click evaluation
+│   ├── generate_samples.py      # Automated sample generator
+│   ├── sample_1_sarah.jpg
+│   ├── sample_2_david.jpg
+│   ├── sample_3_elena.jpg
+│   └── sample_4_marcus.jpg
 ├── tests/
 │   ├── test_face_engine.py      # Face detection & 128-d embedding unit tests
 │   ├── test_blockchain.py       # Merkle tree, PoW mining, signature & tamper tests
@@ -102,21 +119,22 @@ flowchart TD
 │   └── test_api.py              # End-to-end integration tests
 ├── run.py                       # Single-command launcher
 ├── requirements.txt             # Python dependencies
+├── .gitignore                   # Production ignore rules
 └── README.md                    # Project documentation
 ```
 
 ---
 
-## 🚀 Quick Start & Installation
+## 🚀 Quickstart Guide
 
 ### Prerequisites
-- **Python 3.10+** (Tested on Python 3.11, 3.12, 3.14)
-- **Node.js v18+** & **npm**
+* **Python 3.10+** (Tested on Python 3.11, 3.12, 3.14)
+* **Node.js v18+** & **npm**
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/face-blockchain-verifier.git
-cd face-blockchain-verifier
+git clone https://github.com/harinarayana1457-cmyk/HHG-3.git
+cd HHG-3
 ```
 
 ### 2. Install Python Dependencies
@@ -124,7 +142,7 @@ cd face-blockchain-verifier
 pip install -r requirements.txt
 ```
 
-### 3. Install Frontend Dependencies (Optional if running pre-built distribution)
+### 3. Build the Frontend
 ```bash
 cd frontend
 npm install
@@ -139,12 +157,12 @@ python run.py
 ```
 
 Open your browser and navigate to:
-- **Web Application**: [`http://127.0.0.1:8000`](http://127.0.0.1:8000)
-- **Interactive API Docs (Swagger UI)**: [`http://127.0.0.1:8000/docs`](http://127.0.0.1:8000/docs)
+* **Web Application**: [`http://127.0.0.1:8000`](http://127.0.0.1:8000)
+* **Interactive API Documentation (Swagger UI)**: [`http://127.0.0.1:8000/docs`](http://127.0.0.1:8000/docs)
 
 ---
 
-## 🧪 Running Automated Tests
+## 🧪 Automated Testing
 
 Run the full automated test suite across all subsystems:
 
@@ -164,15 +182,15 @@ python -m tests.test_api
 
 ---
 
-## ⛓️ Blockchain Details
+## ⛓️ Cryptographic Blockchain Details
 
 ### 1. Native Verifiable Merkle Blockchain Ledger
 The pipeline includes a built-in cryptographic blockchain running locally on the node:
-- **Hashing Algorithm**: SHA-256
-- **Consensus**: Proof-of-Work (Adjustable difficulty target, default `0x00...`)
-- **State Proofs**: Binary Merkle Trees with audit paths (`get_proof` and `verify_proof`)
-- **Digital Signatures**: ECDSA over `secp256k1` curves
-- **Block Structure**:
+* **Hashing Algorithm**: SHA-256
+* **Consensus**: Proof-of-Work (Adjustable difficulty target, default `0x00...`)
+* **State Proofs**: Binary Merkle Trees with audit paths (`get_proof` and `verify_proof`)
+* **Digital Signatures**: ECDSA over `secp256k1` curves
+* **Block Structure**:
   ```json
   {
     "index": 1,
@@ -214,8 +232,8 @@ function verifyEvidence(
 2. **Step 2: Reverse Search**: The system queries web and social media indexes. Choose any discovered match (e.g., a Twitter/X post or Reddit thread) and click **Upload to Blockchain**.
 3. **Step 3: Mine & Anchor**: Click **Mine Block & Anchor to Blockchain**. Watch the Proof-of-Work nonce search and review the confirmed transaction receipt.
 4. **Step 4: Tamper Lab**:
-   - Click **Re-Verify Against Blockchain**: The audit confirms `VERIFIED AUTHENTIC` (green) with 100% cryptographic match.
-   - Click **Alter Author** or **Alter Image Hash (1 Byte)**: The audit instantly alerts `TAMPER DETECTED / INVALID` (red), pinpointing the exact modified field and broken cryptographic signature.
+   * Click **Re-Verify Against Blockchain**: The audit confirms `VERIFIED AUTHENTIC` (green) with 100% cryptographic match.
+   * Click **Alter Author** or **Alter Image Hash (1 Byte)**: The audit instantly alerts `TAMPER DETECTED / INVALID` (red), pinpointing the exact modified field and broken cryptographic signature.
 
 ---
 
@@ -227,5 +245,14 @@ function verifyEvidence(
 
 ---
 
+## 🔗 Connect & Contribute
+
+* **Author**: [Hari Narayana (@harinarayana1457-cmyk)](https://github.com/harinarayana1457-cmyk)
+* **LinkedIn**: [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/hari-narayana-035ba1389/)
+* Contributions, feedback, and pull requests are warmly welcomed!
+
+---
+
 ## 📄 License
-This project is open source and available under the [MIT License](LICENSE).
+
+* Distributed under the **[MIT License](LICENSE)**.
