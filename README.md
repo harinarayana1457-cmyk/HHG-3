@@ -3,12 +3,12 @@
 # 🔍 FACELEDGER (HHG-3)
 ### Biometric Face Scan → Social Web Discovery → Merkle Blockchain Forensic Verification Pipeline
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/harinarayana1457-cmyk/HHG-3)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
 [![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)](https://opencv.org/)
 [![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636?style=for-the-badge&logo=solidity&logoColor=white)](https://soliditylang.org/)
-[![Blockchain](https://img.shields.io/badge/Blockchain-Merkle%20%2B%20PoW-blue?style=for-the-badge&logo=blockchaindotcom&logoColor=white)](https://github.com/harinarayana1457-cmyk/HHG-3)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 <p align="center">
@@ -20,6 +20,7 @@
 </div>
 
 ---
+
 
 ## 🌟 Key Features
 

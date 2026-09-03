@@ -1,7 +1,7 @@
 {
   "chain_id": "FACE-VERIFY-CHAIN-2026",
   "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa",
-  "block_height": 15,
+  "block_height": 16,
   "blocks": [
     {
       "index": 0,
@@ -435,6 +435,35 @@
       "difficulty": 2,
       "hash": "00a71dc3defb3c548f7f98f598c66ab9dcfab4a1e75fd7fb985858736c82c7c0",
       "signature": "d8cc43c3e4f176bc58a0326aac161a8c1bfc61b03d12709e2874cee435769dd3870cf0a76eb61f1829ec2f4a09ebbfe85f7a359363568b3f14df511452648da7"
+    },
+    {
+      "index": 15,
+      "timestamp": "2026-09-02T16:11:48Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "ffcaa2945c53b6e1e67c6370a5d32664aaafe116779fb8c7ff4d6ae0e543962a",
+          "record_id": "0a825c054bb25dcf",
+          "post_url": "https://i.pinimg.com/736x/af/76/7e/af767eee248849ae3fb69e6b2e55e260.jpg",
+          "author": "i.pinimg.com",
+          "title": "Similar image on i.pinimg.com",
+          "content_snippet": "Visually similar image found at i.pinimg.com.",
+          "source_platform": "Pinterest",
+          "image_hash_sha256": "0a825c054bb25dcf",
+          "phash": "67f3c76c666651e7",
+          "face_embedding_digest": "0.040261,0.116701,0.106969,0.073505,0.066823,0.492923,0.073505,0.140328",
+          "timestamp": "2026-09-02T16:11:48Z",
+          "merkle_leaf_hash": "2c93e413c8b003f73ec7a481efea6009f3ea5d5acd08067d3e59149d124cb91e",
+          "signature": "a786ce57643ad2a43d7dc2779cb3352ffffd450e4be3b02a5e89f0cb00a4cfdb2bba975dc1b46d94e2919861193296f2cf9c2f21f4a36353dc5b40e221d0b0e7",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "ffcaa2945c53b6e1e67c6370a5d32664aaafe116779fb8c7ff4d6ae0e543962a",
+      "previous_hash": "00a71dc3defb3c548f7f98f598c66ab9dcfab4a1e75fd7fb985858736c82c7c0",
+      "nonce": 288,
+      "difficulty": 2,
+      "hash": "00178e4266454d656b18c4c30180d8144bcbaf2ec0db7ee013ede5b2932a2d86",
+      "signature": "e63f5dec7504e722fb9194443a1ef7d48f93146e5b08b28818148a01b4edd5ec9eab95a6f11b39b06872335a5e8f989e8527cd6076060f19c28f4e532d43dbdb"
     }
   ]
 }
