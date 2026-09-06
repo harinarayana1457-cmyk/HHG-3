@@ -1,7 +1,7 @@
 {
   "chain_id": "FACE-VERIFY-CHAIN-2026",
   "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa",
-  "block_height": 16,
+  "block_height": 17,
   "blocks": [
     {
       "index": 0,
@@ -464,6 +464,35 @@
       "difficulty": 2,
       "hash": "00178e4266454d656b18c4c30180d8144bcbaf2ec0db7ee013ede5b2932a2d86",
       "signature": "e63f5dec7504e722fb9194443a1ef7d48f93146e5b08b28818148a01b4edd5ec9eab95a6f11b39b06872335a5e8f989e8527cd6076060f19c28f4e532d43dbdb"
+    },
+    {
+      "index": 16,
+      "timestamp": "2026-09-06T12:17:57Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "8c5d811f39a79e2aa59ed4516da768907e09d302b819ebc63894a82b408cce18",
+          "record_id": "dbd610de78423f0f",
+          "post_url": "https://i0.wp.com/images.indianexpress.com/2025/06/Salman-Khan-2-1.jpg?resize=758%2C758&ssl=1",
+          "author": "i0.wp.com",
+          "title": "Similar image on i0.wp.com",
+          "content_snippet": "Visually similar image found at i0.wp.com.",
+          "source_platform": "Web",
+          "image_hash_sha256": "dbd610de78423f0f",
+          "phash": "5261687830cce86b",
+          "face_embedding_digest": "0.061392,0.068811,0.068419,0.040937,0.038456,0.763597,0.040937,0.079392",
+          "timestamp": "2026-09-06T12:17:57Z",
+          "merkle_leaf_hash": "7a5df854bc724bb45b47cfb532a8b0c181be4e1159e55572445cc927d4cdc976",
+          "signature": "ba662602a4fddd8822ae807c155e3abf7003e57f64a9538148d910486f32d9b48051c2f83d95bdf251274b3eeded65789cefcf3eb08f90dbbf9e6fb126d6ab03",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "8c5d811f39a79e2aa59ed4516da768907e09d302b819ebc63894a82b408cce18",
+      "previous_hash": "00178e4266454d656b18c4c30180d8144bcbaf2ec0db7ee013ede5b2932a2d86",
+      "nonce": 617,
+      "difficulty": 2,
+      "hash": "00827787d59180317df37c70a28dacda50931c913018c4b4db62b926add5f837",
+      "signature": "bdce4c3c7094f7f7c7eaba2460db3d25739feb9ba3223858eaee9174488f9c39f267a8469bd8964053769fa934c4502710588cf5162fbd77268e20277a7852d9"
     }
   ]
 }
