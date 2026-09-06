@@ -3,6 +3,7 @@
 # 🔍 FACELEDGER (HHG-3)
 ### Biometric Face Scan → Social Web Discovery → Merkle Blockchain Forensic Verification Pipeline
 
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-brightgreen?style=for-the-badge&logo=github)](https://harinarayana1457-cmyk.github.io/HHG-3/)
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/harinarayana1457-cmyk/HHG-3)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
@@ -12,6 +13,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 <p align="center">
+  🌐 <b>Live Hosted Frontend</b>: <a href="https://harinarayana1457-cmyk.github.io/HHG-3/">https://harinarayana1457-cmyk.github.io/HHG-3/</a><br/><br/>
   <b>FaceLedger</b> is an end-to-end forensic verification pipeline that accepts an image face scan, discovers matching public social media posts across the web via multi-engine reverse discovery, and anchors cryptographic evidence to a tamper-evident blockchain with <b>Merkle proofs</b>, <b>ECDSA digital signatures</b>, and an interactive <b>re-verification laboratory</b>.
 </p>
 
