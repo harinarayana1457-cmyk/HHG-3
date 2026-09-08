@@ -1,7 +1,7 @@
 <div align="center">
 
-# 🔍 FACELEDGER (HHG-3)
-### Biometric Face Scan → Social Web Discovery → Merkle Blockchain Forensic Verification Pipeline
+# 🔍 HHG-3 — FaceLedger: Biometric Verification & Blockchain Registry
+### End-to-End Forensic Face Identification, Reverse Web Discovery & Merkle Blockchain Pipeline
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-brightgreen?style=for-the-badge&logo=github)](https://harinarayana1457-cmyk.github.io/HHG-3/)
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/harinarayana1457-cmyk/HHG-3)
